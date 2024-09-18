@@ -1,6 +1,6 @@
-Let re-cap "Hello world" for different languages.
+Re-cap "Hello world" for different languages.
 
-And try to understand Build-System and Run-System behind those. 
+Try to understand Build-System and Run-System behind those. 
 
 No need to install big-big-big IDE.
 
@@ -13,5 +13,5 @@ No need to install big-big-big IDE.
 
 -And run your "Hello world" program
 
-  [Terminal] ./run.sh to see 
+  [Terminal] ./run.sh
 
