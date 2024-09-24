@@ -1,0 +1,8 @@
+C#/src/bin
+C#/src/obj
+main
+Main.class
+main.jar
+Typescript/node/src/node_modules
+Typescript/node/src/package-lock.json
+Typescript/node/src/package.json

@@ -7,5 +7,6 @@ if [[ "$CHECK_COMPILER" == *"not found"* ]]; then
     exit 1
 fi
 
+cd src
 javac Main.java
-java Program
+java Main

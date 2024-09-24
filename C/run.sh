@@ -7,5 +7,10 @@ if [[ "$CHECK_COMPILER" == *"not found"* ]]; then
     exit 1
 fi
 
+if [ $# -gt 0 ]; then
+    echo "Argument: $1"
+fi
+
+cd src
 gcc main.c -o main
 ./main

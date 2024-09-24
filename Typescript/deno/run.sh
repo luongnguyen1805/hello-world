@@ -1,12 +1,11 @@
 #!/bin/zsh
 
-CHECK_COMPILER="$(which g++)"
+CHECK_COMPILER="$(which deno)"
 
 if [[ "$CHECK_COMPILER" == *"not found"* ]]; then
-    echo "g++ NOT FOUND"
+    echo "deno NOT FOUND"
     exit 1
 fi
 
 cd src
-g++ main.cpp -o main
-./main
+deno main.ts

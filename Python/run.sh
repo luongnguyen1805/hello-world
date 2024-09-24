@@ -7,4 +7,5 @@ if [[ "$CHECK_COMPILER" == *"not found"* ]]; then
     exit 1
 fi
 
+cd src
 python3 main.py
