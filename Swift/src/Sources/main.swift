@@ -1,4 +1,11 @@
 // The Swift Programming Language
 // https://docs.swift.org/swift-book
 
-print("Hello, world V2")
+class Global 
+{
+    static let shared = Global()
+
+    private init() { }
+}
+
+print("Hello World")
