@@ -12,4 +12,4 @@ fi
 
 cd src
 swift build
-./.build/debug/src
+./.build/debug/Singleton
