@@ -12,4 +12,4 @@ fi
 
 cd src
 swift build
-./.build/debug/Singleton
+./.build/debug/AsyncAwait
