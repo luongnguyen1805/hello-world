@@ -5,8 +5,9 @@ class Global
 
     private init() { }
 
-    func run() 
+    func run(onExit: @escaping ()->Void) 
     {
         print("Singleton implementation.")
+        onExit()
     }
 }

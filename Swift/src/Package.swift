@@ -9,9 +9,7 @@ let package = Package(
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
-        .executableTarget(name: "Hello", path: "Hello"),
-        .executableTarget(name: "Singleton", path: "Singleton"),
-        .executableTarget(name: "AsyncAwait", path: "AsyncAwait"),
+        .executableTarget(name: "Main", path: ".")
     ],
     swiftLanguageVersions: [(.v5)]
 )
