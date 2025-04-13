@@ -1,17 +1,24 @@
-Re-cap "Hello world" for different languages.
 
-Try to understand Build-System and Run-System behind those. 
+# Purpose
 
-No need to install big-big-big IDE.
+-This Project temp to recap "Hello World" for different languages.
 
-----------
-*. How to run?
+-By minimzing source structure, it could help understanding behind-the-scene Build-System and Run-System without big IDE Install.
 
--For each language-source, Add execute-permission to file run.sh 
+# How to run?
 
-  [Terminal] sudo chmod +x run.sh
+-For each language-source, add execute-permission to file run.sh  
 
--And run your "Hello world" program
+> chmod +x run.sh
 
-  [Terminal] ./run.sh
+-Run your program
+
+> ./run.sh
+
+# More?
+
+-Understand "Multi Thread" for each language  
+&nbsp;&nbsp;&nbsp;such as using CFRunLoop(Swift) to enable the non-blocking console?
+
+-Understand "Unit Test" for each language?
 
