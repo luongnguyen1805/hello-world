@@ -1,24 +1,46 @@
 
+<br/>
+
 # Purpose
 
--This Project temp to recap "Hello World" for different languages.
+- This project serves as a concise recap of the "Hello World" program across various programming languages.
 
--By minimzing source structure, it could help understanding behind-the-scene Build-System and Run-System without big IDE Install.
+- By minimizing source code structure, it aims to facilitate understanding of underlying Build and Run systems without the need for extensive IDE installations.
 
-# How to run?
+- It provides a lightweight starting point for playground implementations and experimentation with different language features.
 
--For each language-source, add execute-permission to file run.sh  
+<br/>
 
-> chmod +x run.sh
+# How to Run
 
--Run your program
+- For each language source directory:
+    1. Grant execute permissions to the `run.sh` script:
+    <br/><br/>
+       ```bash
+       chmod +x run.sh
+       ```
+    2. Execute the program using the script:
+    <br/><br/>
+       ```bash
+       ./run.sh
+       ```
 
-> ./run.sh
+<br/>
 
-# More?
+# Further Exploration
 
--Understand "Multi Thread" for each language  
-&nbsp;&nbsp;&nbsp;such as using CFRunLoop(Swift) to enable the non-blocking console?
+- **Concurrency:** Explore implementations of multi-threading and non-blocking console input/output. For example, investigate the use of `CFRunLoop` in Swift for enabling a non-blocking console.
 
--Understand "Unit Test" for each language?
+- **Testing:** Consider adding basic unit tests.
 
+<br/>
+
+# Contribution
+
+Feel free to contribute examples in other programming languages or improvements to existing ones.
+
+<br/>
+
+# License
+
+None
