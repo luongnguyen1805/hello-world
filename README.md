@@ -12,13 +12,13 @@
 **For each language source directory:**
 
 1. Grant execute permissions to the `run.sh` script:
-   <br/><br/>
+   <br/>
    ```bash
       chmod +x run.sh
    ```
 
 2. Execute the program using the script:
-   <br/><br/>
+   <br/>
    ```bash
       ./run.sh
    ```
