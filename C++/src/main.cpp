@@ -4,7 +4,7 @@
 #include <termios.h>
 #include <sys/select.h>
 
-void showActionMenu() {
+void showActions() {
     printf("1. Action 1\n");
     printf("2. Action 2\n");
     printf("0. Exit\n");
@@ -38,15 +38,15 @@ int main() {
 
     int tick = 0;
 
-    showActionMenu();
+    showActions();
 
     while (true) {
-        // Use select() to wait up to 0.1s for input
+        
         fd_set readfds;
         FD_ZERO(&readfds);
         FD_SET(STDIN_FILENO, &readfds);
 
-        struct timeval timeout = {1, 0}; // 0.1 seconds
+        struct timeval timeout = {1, 0}; // 1 second
 
         int ready = select(STDIN_FILENO + 1, &readfds, NULL, NULL, &timeout);
 
@@ -59,8 +59,7 @@ int main() {
         }
 
         // Do something in the loop
-        std::cout << "\033[2K\rEvent Loop: " << tick++ << " | Type command: " << std::flush;
-        usleep(100000); // simulate work
+        std::cout << "\033[2K\rEvent loop: " << tick++ << " | Type command: " << std::flush;
     }
 
     std::cout << "\nExited.\n";

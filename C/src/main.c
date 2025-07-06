@@ -7,8 +7,8 @@
 #include <sys/select.h>
 #include <termios.h>
 
-void showActionMenu() {
-    printf("1. Action 1\n");
+void showActions() {
+    print("1. Action 1\n");
     printf("2. Action 2\n");
     printf("0. Exit\n");
 }
@@ -40,7 +40,7 @@ int main() {
 
     int running = 1;
     
-    showActionMenu();
+    showActions();
 
     while (running > 0) {
         
