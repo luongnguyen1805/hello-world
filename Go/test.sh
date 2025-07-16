@@ -1,11 +1,11 @@
 #!/bin/zsh
 
-CHECK_COMPILER="$(which rustc)"
+CHECK_COMPILER="$(which go)"
 
 if [[ "$CHECK_COMPILER" == *"not found"* ]]; then
-    echo "rustc NOT FOUND"
+    echo "go NOT FOUND"
     exit 1
 fi
 
 cd src
-cargo run
+go test -v
