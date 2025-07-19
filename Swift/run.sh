@@ -10,6 +10,6 @@ fi
 #SOLVE error PlatformPath not found
 #   sudo xcode-select -switch "/Applications/Xcode.app/Contents/Developer"                     
 
-cd src
+cd Source
 swift build
-./.build/debug/Main
+../.build/debug/Source

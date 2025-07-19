@@ -8,3 +8,7 @@ Typescript/node/src/package-lock.json
 Typescript/node/src/package.json
 Swift/.build
 Rust/src/target
+test_runner
+C#/test/obj
+C#/test/bin
+Rust/test/target

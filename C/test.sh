@@ -7,10 +7,12 @@ if [[ "$CHECK_COMPILER" == *"not found"* ]]; then
     exit 1
 fi
 
+cd test
+
 # Build and run Google Test
 gcc -Icmocka/include -Icmocka \
     cmocka/src/*.c \
-    test/main_test.c -o test_runner \
+    main.c -o test_runner \
     -Wno-unused-parameter
 
 if [[ $? -ne 0 ]]; then

@@ -1,11 +1,11 @@
 #!/bin/zsh
 
-CHECK_COMPILER="$(which go)"
+CHECK_COMPILER="$(which dotnet)"
 
 if [[ "$CHECK_COMPILER" == *"not found"* ]]; then
-    echo "go NOT FOUND"
+    echo "dotnet NOT FOUND"
     exit 1
 fi
 
 cd test
-go test -v
+dotnet test

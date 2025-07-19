@@ -10,8 +10,4 @@ fi
 cd src
 dotnet build
 
-echo "[PROGRAM]"
-
 dotnet run "bin/Debug/net8.0/Main"
-
-echo "[EXIT]"

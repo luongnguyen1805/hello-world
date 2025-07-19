@@ -1,11 +1,12 @@
 #!/bin/zsh
 
-CHECK_COMPILER="$(which go)"
+CHECK_COMPILER="$(which java)"
 
 if [[ "$CHECK_COMPILER" == *"not found"* ]]; then
-    echo "go NOT FOUND"
+    echo "java NOT FOUND"
     exit 1
 fi
 
 cd test
-go test -v
+javac Main.java
+java -ea Main

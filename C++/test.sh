@@ -7,10 +7,12 @@ if [[ "$CHECK_COMPILER" == *"not found"* ]]; then
     exit 1
 fi
 
+cd test
+
 # Build and run Google Test
 g++ -std=c++17 -Igoogletest/include -Igoogletest -pthread \
     googletest/src/gtest-all.cc \
-    test/main_test.cpp -o test_runner
+    main.cpp -o test_runner
 
 if [[ $? -ne 0 ]]; then
     echo "Test build failed"
