@@ -8,7 +8,7 @@
 #include <termios.h>
 
 void showActions() {
-    print("1. Action 1\n");
+    printf("1. Action 1\n");
     printf("2. Action 2\n");
     printf("0. Exit\n");
 }
@@ -39,6 +39,7 @@ int main() {
     enable_raw_mode();
 
     int running = 1;
+    char commandBuffer[100];
     
     showActions();
 
@@ -55,17 +56,31 @@ int main() {
             char ch;
             int len = read(STDIN_FILENO, &ch, 1);
             if (len > 0) {
-                if (ch == '0') break;
+                if (ch == 10) {
+                    if (strcmp(commandBuffer,"0\0")) {
+                        break;
+                    }
+                }
+                else if (ch == 127 || ch == 8) {
+                    int bufferLen = strlen(commandBuffer);
+                    if (bufferLen > 1) {
+                        commandBuffer[bufferLen - 1] = '\0';                        
+                    }
+                }
+                else if (ch >= 32 && ch <= 126) {
+                    int bufferLen = strlen(commandBuffer);
+                    commandBuffer[bufferLen] = ch;
+                    commandBuffer[bufferLen + 1] = '\0';
+                }
             }
         }
         
-        printf("\033[2K\r"); // Clear line and return cursor to start
-        printf("Event loop: %d | Type command: ", running);
+        printf("\033[2K\rEvent loop: %d | Type command: %s", running,commandBuffer);
         fflush(stdout);
 
         running++;
     }
 
-    printf("\nProgram exited.\n");
+    printf("\nExited.\n");
     return 0;
 }
