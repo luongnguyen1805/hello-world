@@ -3,6 +3,9 @@
 #include <fcntl.h>
 #include <termios.h>
 #include <sys/select.h>
+#include <string>
+
+using namespace std;
 
 void showActions() {
     printf("1. Action 1\n");
@@ -37,6 +40,7 @@ int main() {
     setNonBlockingStdin();
 
     int tick = 0;
+    string commandBuffer = "";
 
     showActions();
 
@@ -54,12 +58,24 @@ int main() {
             char ch;
             ssize_t n = read(STDIN_FILENO, &ch, 1);
             if (n > 0) {
-                if (ch == '0') break;
+                if (ch == 10 || ch == 13) {
+                    if (commandBuffer == "0") {
+                        break;
+                    }
+                }
+                else if (ch == 127 || ch == 8) {
+                    if (!commandBuffer.empty()) {
+                        commandBuffer.pop_back();                        
+                    }
+                }
+                else if (ch >= 32 && ch <= 126) {
+                    commandBuffer += ch;
+                }
             }
         }
 
         // Do something in the loop
-        std::cout << "\033[2K\rEvent loop: " << tick++ << " | Type command: " << std::flush;
+        std::cout << "\033[2K\rEvent loop: " << tick++ << " | Type command: " << commandBuffer << std::flush;
     }
 
     std::cout << "\nExited.\n";

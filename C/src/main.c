@@ -56,7 +56,7 @@ int main() {
             char ch;
             int len = read(STDIN_FILENO, &ch, 1);
             if (len > 0) {
-                if (ch == 10) {
+                if (ch == 10 || ch == 13) {
                     if (strcmp(commandBuffer,"0\0")) {
                         break;
                     }

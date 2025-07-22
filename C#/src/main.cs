@@ -12,26 +12,50 @@ public class Program {
     public static void Main() {
 
         int running = 0;
+        string commandBuffer = "";
 
         ShowActions();
+        
+        long lastTrackingTimestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
         while (true)
         {
-            running++;
-
             if (Console.KeyAvailable)
             {
                 ConsoleKeyInfo key = Console.ReadKey(true); // true = don't show key
+                char ch = key.KeyChar;
 
-                if (key.Key == ConsoleKey.D0)
+                if (key.Key == ConsoleKey.Enter)
                 {
-                    Console.WriteLine("\nExit.");
-                    break;
+                    if (commandBuffer == "0")
+                    {
+                        Console.WriteLine("\nExited.");
+                        break;
+                    }
                 }
+                else if (key.Key == ConsoleKey.Backspace || key.Key == ConsoleKey.Delete)
+                {
+                    if (commandBuffer.Length > 0)
+                    {
+                        commandBuffer = commandBuffer[..^1];
+                    }
+                }
+                else if (ch >= 32 && ch <= 126)
+                {
+                    commandBuffer += ch;
+                }
+
+                Console.Write($"\x1B[2K\rEvent loop: {running} | Type command: {commandBuffer}");
             }
 
-            Console.Write($"\x1B[2K\rEvent loop: {running} | Type command: ");
-            Thread.Sleep(1000);
+            long nowTimestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            if (nowTimestamp - lastTrackingTimestamp > 1000)
+            {
+                lastTrackingTimestamp = nowTimestamp;
+                running++;
+                Console.Write($"\x1B[2K\rEvent loop: {running} | Type command: {commandBuffer}");                
+            }
+
         }
 
     }
