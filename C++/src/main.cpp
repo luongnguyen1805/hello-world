@@ -4,6 +4,7 @@
 #include <termios.h>
 #include <sys/select.h>
 #include <string>
+#include <time.h>
 
 using namespace std;
 
@@ -39,19 +40,19 @@ int main() {
     enableRawMode();
     setNonBlockingStdin();
 
-    int tick = 0;
+    int running = 1;
     string commandBuffer = "";
+    time_t lastTimestamp = time(NULL);
 
     showActions();
 
-    while (true) {
+    while (running > 0) {
         
         fd_set readfds;
         FD_ZERO(&readfds);
         FD_SET(STDIN_FILENO, &readfds);
 
-        struct timeval timeout = {1, 0}; // 1 second
-
+        struct timeval timeout = {0, 0};
         int ready = select(STDIN_FILENO + 1, &readfds, NULL, NULL, &timeout);
 
         if (ready > 0 && FD_ISSET(STDIN_FILENO, &readfds)) {
@@ -71,11 +72,20 @@ int main() {
                 else if (ch >= 32 && ch <= 126) {
                     commandBuffer += ch;
                 }
+
+                std::cout << "\033[2K\rRun loop: " << running << " | Type command: " << commandBuffer << std::flush;
+                fflush(stdout);
             }
         }
 
-        // Do something in the loop
-        std::cout << "\033[2K\rEvent loop: " << tick++ << " | Type command: " << commandBuffer << std::flush;
+        time_t currentTimestamp = time(NULL);
+        if (difftime(currentTimestamp,lastTimestamp) > 0) {
+            std::cout << "\033[2K\rRun loop: " << running << " | Type command: " << commandBuffer << std::flush;
+            fflush(stdout);
+
+            running++;            
+            lastTimestamp = currentTimestamp;
+        }        
     }
 
     std::cout << "\nExited.\n";

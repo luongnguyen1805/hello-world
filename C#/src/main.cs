@@ -1,4 +1,3 @@
-
 namespace MyApp;
 
 public class Program {
@@ -11,14 +10,14 @@ public class Program {
 
     public static void Main() {
 
-        int running = 0;
+        int running = 1;
         string commandBuffer = "";
 
         ShowActions();
         
-        long lastTrackingTimestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+        long lastTimestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
-        while (true)
+        while (running > 0)
         {
             if (Console.KeyAvailable)
             {
@@ -45,15 +44,16 @@ public class Program {
                     commandBuffer += ch;
                 }
 
-                Console.Write($"\x1B[2K\rEvent loop: {running} | Type command: {commandBuffer}");
+                Console.Write($"\x1B[2K\rRun loop: {running} | Type command: {commandBuffer}");
             }
 
             long nowTimestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-            if (nowTimestamp - lastTrackingTimestamp > 1000)
+            if (nowTimestamp - lastTimestamp > 1000)
             {
-                lastTrackingTimestamp = nowTimestamp;
+                Console.Write($"\x1B[2K\rRun loop: {running} | Type command: {commandBuffer}");                
+
+                lastTimestamp = nowTimestamp;
                 running++;
-                Console.Write($"\x1B[2K\rEvent loop: {running} | Type command: {commandBuffer}");                
             }
 
         }
