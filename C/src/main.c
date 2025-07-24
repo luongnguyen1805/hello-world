@@ -6,6 +6,7 @@
 #include <fcntl.h>
 #include <sys/select.h>
 #include <termios.h>
+#include <time.h>
 
 void showActions() {
     printf("1. Action 1\n");
@@ -40,6 +41,7 @@ int main() {
 
     int running = 1;
     char commandBuffer[100];
+    time_t lastTimestamp = time(NULL);
     
     showActions();
 
@@ -49,7 +51,7 @@ int main() {
         FD_ZERO(&readfds);
         FD_SET(STDIN_FILENO, &readfds);
 
-        struct timeval timeout = {1, 0}; // 1 second
+        struct timeval timeout = {0, 0}; 
         int ret = select(STDIN_FILENO + 1, &readfds, NULL, NULL, &timeout);
 
         if (ret > 0 && FD_ISSET(STDIN_FILENO, &readfds)) {
@@ -71,14 +73,23 @@ int main() {
                     int bufferLen = strlen(commandBuffer);
                     commandBuffer[bufferLen] = ch;
                     commandBuffer[bufferLen + 1] = '\0';
-                }
+                }                
+
+                printf("\033[2K\rRun loop: %d | Type command: %s", running,commandBuffer);
+                fflush(stdout);
+
             }
         }
-        
-        printf("\033[2K\rEvent loop: %d | Type command: %s", running,commandBuffer);
-        fflush(stdout);
 
-        running++;
+        time_t currentTimestamp = time(NULL);
+        if (difftime(currentTimestamp,lastTimestamp) > 0) {
+            printf("\033[2K\rRun loop: %d | Type command: %s", running,commandBuffer);
+            fflush(stdout);
+
+            running++;            
+            lastTimestamp = currentTimestamp;
+        }
+
     }
 
     printf("\nExited.\n");
