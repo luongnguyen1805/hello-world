@@ -12,3 +12,4 @@ test_runner
 C#/test/obj
 C#/test/bin
 Rust/test/target
+build/

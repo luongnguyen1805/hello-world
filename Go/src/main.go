@@ -37,19 +37,40 @@ func main() {
 	}()
 
 	showActions()
+
 	loop := 0
+	commandBuffer := ""
+	lastTimestamp := time.Now()
 
 	for {
-		loop++
 		select {
-		case b := <-input:
-			if b == '0' {
-				fmt.Println("\n\rExit.")
+		case b, ok := <-input:
+			if !ok {
 				return
 			}
+
+			if b == 10 || b == 13 { // Enter
+				if commandBuffer == "0" {
+					fmt.Printf("\n\rExited.")
+					return
+				}
+			} else if b == 127 || b == 8 { // Backspace
+				if len(commandBuffer) > 0 {
+					commandBuffer = commandBuffer[:len(commandBuffer)-1]
+					fmt.Printf("\033[2K\rRun loop %d | Type command: %s", loop, commandBuffer)
+				}
+			} else if b >= 32 && b <= 126 { // Printable ASCII
+				commandBuffer += string(b)
+				fmt.Printf("\033[2K\rRun loop %d | Type command: %s", loop, commandBuffer)
+			}
 		default:
-			fmt.Printf("\033[2K\rEvent loop %d | Type command: ", loop)
-			time.Sleep(1000 * time.Millisecond)
+			nowTimestamp := time.Now()
+			if nowTimestamp.Sub(lastTimestamp) > time.Second {
+				fmt.Printf("\033[2K\rRun loop %d | Type command: %s", loop, commandBuffer)
+
+				loop++
+				lastTimestamp = nowTimestamp
+			}
 		}
 	}
 }

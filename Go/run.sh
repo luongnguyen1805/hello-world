@@ -8,5 +8,6 @@ if [[ "$CHECK_COMPILER" == *"not found"* ]]; then
 fi
 
 cd src
-go build
+go build -o main
+
 ./main

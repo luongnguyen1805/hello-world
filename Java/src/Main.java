@@ -1,6 +1,40 @@
-import java.util.Scanner;
+
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
+import com.sun.jna.*;
+import com.sun.jna.ptr.*;
+
+import com.sun.jna.Library;
+import com.sun.jna.Native;
 
 public class Main {
+
+    public interface CLibrary extends Library {
+
+        public static class Termios extends Structure {
+            public NativeLong c_iflag;
+            public NativeLong c_oflag;
+            public NativeLong c_cflag;
+            public NativeLong c_lflag;
+            public byte[] c_line = new byte[1];     // unused but required padding
+            public byte[] c_cc = new byte[20];      // control chars
+            public NativeLong c_ispeed;
+            public NativeLong c_ospeed;
+
+            @Override
+            protected java.util.List<String> getFieldOrder() {
+                return java.util.Arrays.asList("c_iflag", "c_oflag", "c_cflag", "c_lflag",
+                                            "c_line", "c_cc", "c_ispeed", "c_ospeed");
+            }
+        }
+
+        CLibrary INSTANCE = Native.load("c", CLibrary.class);
+
+        int tcgetattr(int fd, Termios termios);
+        int tcsetattr(int fd, int actions, Termios termios);
+        int getchar();
+    }
 
     private static volatile boolean isInputScanning = true;
 
@@ -10,37 +44,100 @@ public class Main {
         System.out.println("0. Exit");
     }
 
+    private static void enableRawMode() {
+        final int STDIN = 0;
+        final int TCSANOW = 0;
+
+        final int ICANON = 0x00000100;
+        final int ECHO   = 0x00000008;
+
+        CLibrary.Termios orig = new CLibrary.Termios();
+        CLibrary.Termios raw = new CLibrary.Termios();
+
+        // Save current terminal settings
+        CLibrary.INSTANCE.tcgetattr(STDIN, orig);
+        CLibrary.INSTANCE.tcgetattr(STDIN, raw);
+
+        // Disable canonical mode (ICANON) and echo (ECHO)
+        long newFlags = raw.c_lflag.longValue();
+        newFlags &= ~(ICANON | ECHO); // ICANON = 0x0002, ECHO = 0x0008
+        raw.c_lflag = new NativeLong(newFlags);
+
+        // Apply raw mode
+        CLibrary.INSTANCE.tcsetattr(STDIN, TCSANOW, raw);        
+    }
+
+    private static void disableRawMode() {
+        final int STDIN = 0;
+        final int TCSANOW = 0;
+        CLibrary.Termios orig = new CLibrary.Termios();
+
+        // Restore original settings
+        CLibrary.INSTANCE.tcsetattr(STDIN, TCSANOW, orig);
+    }
+
     public static void main(String[] args) {
 
-        // Start input thread
+        enableRawMode();
+
+        BlockingQueue<Character> inputQueue = new LinkedBlockingQueue<>();
         Thread inputThread = new Thread(() -> {
-            Scanner scanner = new Scanner(System.in);
-            while (isInputScanning) {
-                if (scanner.hasNextLine()) {
-                    String line = scanner.nextLine();
-                    if (line.equalsIgnoreCase("0")) {
-                        isInputScanning = false;
+            int ch;
+            while (true) {
+                ch = CLibrary.INSTANCE.getchar();         
+                if (ch > -1)               
+                {
+                    try {
+                       inputQueue.put((char)ch);
+                    } catch (InterruptedException e) {
+                        //ignore
                     }
                 }
             }
-            scanner.close();
         });
         inputThread.setDaemon(true);
         inputThread.start();
 
         showActions();
-        int running = 0;
-        while (isInputScanning) {
-            try {
-                running++;
 
-                System.out.printf("\033[2K\rEvent loop: %d | Type command: ",running);
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                break;
+        int running = 0;
+        long lastTimestamp = System.currentTimeMillis();
+        StringBuilder commandBuffer = new StringBuilder();
+
+        while (isInputScanning) {
+
+            Character achar = inputQueue.poll();
+            if (achar != null) {
+                int ch = achar;
+                if (ch == 10 || ch == 13) { // Enter (LF or CR)
+                    if (commandBuffer.toString().equals("0")) {
+                        isInputScanning = false; // exit loop
+                        System.out.println("\nExited.");
+                        return;
+                    }
+                } 
+                else if (ch == 127 || ch == 8) { // Backspace or Delete
+                    if (commandBuffer.length() > 0) {
+                        commandBuffer.deleteCharAt(commandBuffer.length() - 1);
+                        System.out.printf("\033[2K\rRun loop: %d | Type command: %s",running,commandBuffer.toString());
+                    }
+                } 
+                else if (ch >= 32 && ch <= 126) { // printable ASCII
+                    commandBuffer.append((char) ch);
+                    System.out.printf("\033[2K\rRun loop: %d | Type command: %s",running,commandBuffer.toString());
+                }
             }
+
+            long nowTimestamp = System.currentTimeMillis();
+            if (nowTimestamp - lastTimestamp > 1000) {
+                System.out.printf("\033[2K\rRun loop: %d | Type command: %s",running,commandBuffer.toString());
+                
+                running++;
+                lastTimestamp = nowTimestamp;
+            }
+
         }
 
-        System.out.println("Exit.");
+        disableRawMode();
     }
 }

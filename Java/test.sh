@@ -8,5 +8,7 @@ if [[ "$CHECK_COMPILER" == *"not found"* ]]; then
 fi
 
 cd test
-javac Main.java
+javac -d ./build Main.java
+
+cd ./build
 java -ea Main
