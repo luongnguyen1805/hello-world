@@ -5,9 +5,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 import com.sun.jna.*;
 import com.sun.jna.ptr.*;
 
-import com.sun.jna.Library;
-import com.sun.jna.Native;
-
 public class Main {
 
     public interface CLibrary extends Library {
@@ -119,13 +116,12 @@ public class Main {
                 else if (ch == 127 || ch == 8) { // Backspace or Delete
                     if (commandBuffer.length() > 0) {
                         commandBuffer.deleteCharAt(commandBuffer.length() - 1);
-                        System.out.printf("\033[2K\rRun loop: %d | Type command: %s",running,commandBuffer.toString());
                     }
                 } 
                 else if (ch >= 32 && ch <= 126) { // printable ASCII
                     commandBuffer.append((char) ch);
-                    System.out.printf("\033[2K\rRun loop: %d | Type command: %s",running,commandBuffer.toString());
                 }
+                System.out.printf("\033[2K\rRun loop: %d | Type command: %s",running,commandBuffer.toString());
             }
 
             long nowTimestamp = System.currentTimeMillis();

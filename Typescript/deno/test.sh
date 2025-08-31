@@ -1,11 +1,11 @@
 #!/bin/zsh
 
-CHECK_COMPILER="$(which node)"
+CHECK_COMPILER="$(which deno)"
 
 if [[ "$CHECK_COMPILER" == *"not found"* ]]; then
-    echo "node NOT FOUND"
+    echo "deno NOT FOUND"
     exit 1
 fi
 
-cd src
-node main.js
+cd test
+deno main.ts

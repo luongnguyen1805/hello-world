@@ -1,38 +1,31 @@
+# "Hello World" Across Languages
 
-# Purpose
+This project is a minimalist collection of "Hello World" examples, demonstrating non-blocking console output in various programming languages.
 
-- This project serves as a concise recap of the "Hello World" program across various programming languages.
+The goal is to provide a concise overview of each language's build and run process without requiring a full-fledged IDE setup. It's an ideal starting point for anyone looking to quickly experiment or compare different language environments.
 
-- By minimizing source code structure, it aims to facilitate understanding of underlying Build and Run systems without the need for extensive IDE installations.
+---
 
-- It provides a lightweight starting point for playground implementations and experimentation with different language features.
+### How to Run an Example
 
-# How to Run
+To run any of the examples, navigate into the source directory for the language you want to test and follow these two steps.
 
-**For each language source directory:**
+1.  Grant execute permissions to the `run.sh` script:
+    
+    `chmod +x run.sh`
+    
+2.  Execute the script to run the program:
+    
+    `./run.sh`
 
-1. Grant execute permissions to the `run.sh` script:
-   <br/>
-   ```bash
-      chmod +x run.sh
-   ```
+---
 
-2. Execute the program using the script:
-   <br/>
-   ```bash
-      ./run.sh
-   ```
+### Contributions
 
-# Further Exploration
+Contributions are welcome! Please feel free to add new language examples or improve existing ones.
 
-- **Concurrency:** Explore implementations of multi-threading and non-blocking console input/output. For example, investigate the use of `CFRunLoop` in Swift for enabling a non-blocking console.
+---
 
-- **Testing:** Consider adding basic unit tests.
+### License
 
-# Contribution
-
-Feel free to contribute examples in other programming languages or improvements to existing ones.
-
-# License
-
-None
+This project is not licensed.

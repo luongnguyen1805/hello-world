@@ -30,15 +30,13 @@ void main() {
         if (commandBuffer.isNotEmpty) {
           commandBuffer = commandBuffer.substring(0, commandBuffer.length - 1);
         }
-
-        stdout.write('\x1B[2K\rRun loop: $running | Type command: $commandBuffer');
-
       } else if (ch >= 32 && ch <= 126) {
         // Printable ASCII
         commandBuffer += String.fromCharCode(ch);
-
-        stdout.write('\x1B[2K\rRun loop: $running | Type command: $commandBuffer');
       }
+
+      stdout.write('\x1B[2K\rRun loop: $running | Type command: $commandBuffer');
+
     }
   });
 

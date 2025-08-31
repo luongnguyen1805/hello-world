@@ -1,11 +1,7 @@
-use std::{io::{self, Write}, time::Duration};
-
-use crossterm::{
-    event::{self, Event, KeyCode},
-    terminal::{disable_raw_mode, enable_raw_mode},
-};
-
-type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>;
+use crossterm::event::{self, Event, KeyCode};
+use crossterm::terminal::{enable_raw_mode, disable_raw_mode};
+use std::io::{self, Write};
+use std::time::{Duration, Instant};
 
 fn show_actions() {
 
@@ -15,34 +11,53 @@ fn show_actions() {
 
 }
 
-fn main() -> Result<()> {
-    enable_raw_mode()?; // disable line buffering and echo
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    enable_raw_mode()?; // disable line buffering & echo
 
     show_actions();
+    
+    let mut running: u64 = 1;
+    let mut command_buffer = String::new();
+    let mut last_tick = Instant::now();
 
-    let mut running = 0;
+    print!("\rRun loop: {} | Type command: {}", running, command_buffer);
+    io::stdout().flush().unwrap();
 
-    loop {
-
+    while running > 0 {
+        // Poll input without blocking (like select() with timeout=0)
         if event::poll(Duration::from_millis(0))? {
-
             if let Event::Key(key_event) = event::read()? {
-                if key_event.code == KeyCode::Char('0') {
-                    print!("\n\r\x1B[2KExit.\n\r");
-                    io::stdout().flush().unwrap();
-                    break;
+                match key_event.code {
+                    KeyCode::Enter => {
+                        if command_buffer == "0" {
+                            break;
+                        }
+                    }
+                    KeyCode::Backspace => {
+                        command_buffer.pop();
+                    }
+                    KeyCode::Char(c) if c.is_ascii_graphic() || c == ' ' => {
+                        command_buffer.push(c);
+                    }
+                    _ => {}
                 }
+
+                print!("\x1B[2K\rRun loop: {} | Type command: {}", running, command_buffer);
+                io::stdout().flush().unwrap();
             }
         }
 
-        running += 1;
-        print!("\r\x1B[2KEvent loop {} | Type command: ", running);    
-        io::stdout().flush().unwrap();
-
-        std::thread::sleep(Duration::from_millis(1000));
+        // Tick once per second
+        if last_tick.elapsed() >= Duration::from_secs(1) {
+            running += 1;
+            print!("\x1B[2K\rRun loop: {} | Type command: {}", running, command_buffer);
+            io::stdout().flush().unwrap();
+            last_tick = Instant::now();
+        }
     }
 
     disable_raw_mode()?;
+    println!("\nExited.");
     Ok(())
 }
 

@@ -57,12 +57,13 @@ func main() {
 			} else if b == 127 || b == 8 { // Backspace
 				if len(commandBuffer) > 0 {
 					commandBuffer = commandBuffer[:len(commandBuffer)-1]
-					fmt.Printf("\033[2K\rRun loop %d | Type command: %s", loop, commandBuffer)
 				}
 			} else if b >= 32 && b <= 126 { // Printable ASCII
 				commandBuffer += string(b)
-				fmt.Printf("\033[2K\rRun loop %d | Type command: %s", loop, commandBuffer)
 			}
+
+			fmt.Printf("\033[2K\rRun loop %d | Type command: %s", loop, commandBuffer)
+
 		default:
 			nowTimestamp := time.Now()
 			if nowTimestamp.Sub(lastTimestamp) > time.Second {
