@@ -3,6 +3,10 @@ use crossterm::terminal::{enable_raw_mode, disable_raw_mode};
 use std::io::{self, Write};
 use std::time::{Duration, Instant};
 
+mod global;
+
+use crate::global::global_shared;
+
 fn show_actions() {
 
     println!("\r1. Action 1");
@@ -29,9 +33,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             if let Event::Key(key_event) = event::read()? {
                 match key_event.code {
                     KeyCode::Enter => {
-                        if command_buffer == "0" {
-                            break;
+                        if command_buffer == "1" {
+                            global_shared().action1();
+                        } else if command_buffer == "2" {
+                            global_shared().action2();
                         }
+
+                        break;
                     }
                     KeyCode::Backspace => {
                         command_buffer.pop();

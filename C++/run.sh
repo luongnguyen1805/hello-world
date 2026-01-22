@@ -8,5 +8,8 @@ if [[ "$CHECK_COMPILER" == *"not found"* ]]; then
 fi
 
 cd src
-g++ main.cpp -o main
-./main
+
+mkdir -p build
+
+g++ -std=c++11 global.cpp main.cpp -o ./build/main
+./build/main

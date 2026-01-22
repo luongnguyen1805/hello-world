@@ -6,6 +6,8 @@
 #include <string>
 #include <time.h>
 
+#include "global.h"
+
 using namespace std;
 
 void showActions() {
@@ -60,9 +62,13 @@ int main() {
             ssize_t n = read(STDIN_FILENO, &ch, 1);
             if (n > 0) {
                 if (ch == 10 || ch == 13) {
-                    if (commandBuffer == "0") {
-                        break;
+                    if (commandBuffer == "1") {
+                        Global::shared().action1();
                     }
+                    if (commandBuffer == "2") {
+                        Global::shared().action2();
+                    }
+                    break;
                 }
                 else if (ch == 127 || ch == 8) {
                     if (!commandBuffer.empty()) {

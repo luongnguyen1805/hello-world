@@ -107,11 +107,17 @@ public class Main {
             if (achar != null) {
                 int ch = achar;
                 if (ch == 10 || ch == 13) { // Enter (LF or CR)
-                    if (commandBuffer.toString().equals("0")) {
-                        isInputScanning = false; // exit loop
-                        System.out.println("\nExited.");
-                        return;
+                    if (commandBuffer.toString().equals("1")) {
+                        Global.shared().action1();
                     }
+                    else if (commandBuffer.toString().equals("2")) {
+                        Global.shared().action2();
+                    }
+
+                    isInputScanning = false; // exit loop
+                    System.out.println("\nExited.");
+                    return;
+
                 } 
                 else if (ch == 127 || ch == 8) { // Backspace or Delete
                     if (commandBuffer.length() > 0) {

@@ -8,6 +8,9 @@ if [[ "$CHECK_COMPILER" == *"not found"* ]]; then
 fi
 
 cd src
-clang -fobjc-arc -framework Foundation main.m -o main
 
-./main
+mkdir -p build
+
+clang -fobjc-arc -framework Foundation Global.m main.m -o ./build/main
+
+./build/main

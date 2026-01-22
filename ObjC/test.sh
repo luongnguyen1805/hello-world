@@ -8,6 +8,8 @@ if [[ "$CHECK_COMPILER" == *"not found"* ]]; then
 fi
 
 cd test
-clang -fobjc-arc -framework Foundation main.m -o main
 
-./main
+mkdir -p build
+clang -fobjc-arc -framework Foundation main.m -o ./build/main
+
+./build/main

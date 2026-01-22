@@ -54,14 +54,19 @@ fun main() = runBlocking {
 
             when (chCode) {
                 10, 13 -> { // Enter
-                    if (commandBuffer == "0") {
-                        println("\nExited.")
-                        running=-1
-
-                        inputJob.cancel() // Cancel input
-                        
-                        return@runBlocking // Exit the runBlocking
+                    if (commandBuffer == "1") {
+                        Global.action1();
+                    } else if (commandBuffer == "2") {
+                        Global.action2();
                     }
+
+                    println("\nExited.")
+                    running=-1
+
+                    inputJob.cancel() // Cancel input
+                    
+                    return@runBlocking // Exit the runBlocking
+
                 }
                 8, 127 -> { // Backspace
                     if (commandBuffer.isNotEmpty()) {

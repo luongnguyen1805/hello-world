@@ -1,0 +1,5 @@
+{
+  "imports": {
+    "@std/assert": "https://deno.land/std/assert/mod.ts"
+  }
+}

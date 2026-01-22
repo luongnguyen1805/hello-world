@@ -8,6 +8,8 @@
 #include <termios.h>
 #include <time.h>
 
+#include "global.h"
+
 void showActions() {
     printf("1. Action 1\n");
     printf("2. Action 2\n");
@@ -40,7 +42,7 @@ int main() {
     enable_raw_mode();
 
     int running = 1;
-    char commandBuffer[100];
+    char commandBuffer[100] = {0};
     time_t lastTimestamp = time(NULL);
     
     showActions();
@@ -59,13 +61,19 @@ int main() {
             int len = read(STDIN_FILENO, &ch, 1);
             if (len > 0) {
                 if (ch == 10 || ch == 13) {
-                    if (strcmp(commandBuffer,"0\0")) {
-                        break;
+                    
+                    if (strcmp(commandBuffer,"1\0") == 0) {
+                        action1();
+                    } else if (strcmp(commandBuffer,"2\0") == 0) {
+                        action2();
                     }
+
+                    break;
+
                 }
                 else if (ch == 127 || ch == 8) {
                     int bufferLen = strlen(commandBuffer);
-                    if (bufferLen > 1) {
+                    if (bufferLen > 0) {
                         commandBuffer[bufferLen - 1] = '\0';                        
                     }
                 }

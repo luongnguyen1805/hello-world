@@ -26,11 +26,18 @@ public class Program {
 
                 if (key.Key == ConsoleKey.Enter)
                 {
-                    if (commandBuffer == "0")
+                    if (commandBuffer == "1")
                     {
-                        Console.WriteLine("\nExited.");
-                        break;
+                        Global.Shared.Action1();
                     }
+                    else if (commandBuffer == "2")
+                    {
+                        Global.Shared.Action2();
+                    }
+
+                    Console.WriteLine("\nExited.");
+                    break;
+
                 }
                 else if (key.Key == ConsoleKey.Backspace || key.Key == ConsoleKey.Delete)
                 {
@@ -60,13 +67,3 @@ public class Program {
 
     }
 }
-
-public class Global
-{
-    public static readonly Global Shared = new Global();
-    private Global()
-    {
-        Console.WriteLine("Bad init");
-    }
-}
-

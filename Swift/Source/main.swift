@@ -19,8 +19,8 @@ enum MenuOption: String {
     
     var description: String {
         switch self {
-        case .one: return "Singleton"
-        case .two: return "Async Await"
+        case .one: return "Action 1"
+        case .two: return "Action 2"
         case .exit: return "Exit"
         }
     }
@@ -75,9 +75,7 @@ class ConsoleInput {
     private func handleChar(_ ch: UInt8, completion: @escaping (String) -> Void) {
         if ch == 10 || ch == 13 { // Enter
             let command = commandBuffer
-            if (command == "0") {
-                completion(command)
-            }
+            completion(command)
         } else if ch == 127 || ch == 8 { // Backspace
             if !commandBuffer.isEmpty {
                 commandBuffer.removeLast()
@@ -104,7 +102,7 @@ class ConsoleInput {
         // restore terminal
         let fd = FileHandle.standardInput.fileDescriptor
         tcsetattr(fd, TCSANOW, &origTerm)
-        print("\nExited.")
+        print("Exited.")
     }
     
     func printMenu() {
@@ -126,14 +124,17 @@ func main() {
 
         switch choice {
         case MenuOption.one.rawValue:
-            Global.shared.run {
+            Global.shared.action1 {
+                console.stopReading();
                 RunLoop.stop()
             }
         case MenuOption.two.rawValue:
-            AsyncAwait().run {
+            Global.shared.action2 {
+                console.stopReading();
                 RunLoop.stop()
             }
         case MenuOption.exit.rawValue:
+            print("");
             console.stopReading();
             RunLoop.stop()
         default:

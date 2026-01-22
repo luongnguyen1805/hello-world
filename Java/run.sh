@@ -12,7 +12,7 @@ fi
 cd src
 mkdir -p build
 cp jna-5.17.0.jar ./build/
-javac -d ./build -cp jna-5.17.0.jar Main.java
+javac -d ./build -cp jna-5.17.0.jar Main.java Global.java
 
 cd ./build
 java -cp .:jna-5.17.0.jar Main

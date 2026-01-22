@@ -5,9 +5,16 @@ class Global
 
     private init() { }
 
-    func run(onExit: @escaping ()->Void) 
+    func action1(onExit: @escaping ()->Void) 
     {
-        print("Singleton implementation.")
+        print("\n...Action1...")
         onExit()
     }
+
+    func action2(onExit: @escaping ()->Void) 
+    {
+        print("\n...Action2...")
+        onExit()
+    }
+
 }

@@ -8,5 +8,9 @@ if [[ "$CHECK_COMPILER" == *"not found"* ]]; then
 fi
 
 cd src
-gcc main.c -o main
-./main
+mkdir -p build
+
+gcc global.c main.c \
+    -o "./build/main"
+
+./build/main

@@ -10,5 +10,4 @@ fi
 #SOLVE error PlatformPath not found
 #   sudo xcode-select -switch "/Applications/Xcode.app/Contents/Developer"                     
 
-swift build
 swift test

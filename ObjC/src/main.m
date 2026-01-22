@@ -5,6 +5,8 @@
 #import <fcntl.h>
 #import <time.h>
 
+#import "Global.h"
+
 // --- Terminal handling ---
 static struct termios origTerm;
 
@@ -58,9 +60,15 @@ int main(int argc, const char * argv[]) {
                 ssize_t n = read(STDIN_FILENO, &ch, 1);
                 if (n > 0) {
                     if (ch == 10 || ch == 13) { // Enter
-                        if ([commandBuffer isEqualToString:@"0"]) {
-                            break;
+
+                        if ([commandBuffer isEqualToString:@"1"]) {
+                            [[Global shared] action1];
                         }
+                        else if ([commandBuffer isEqualToString:@"2"]) {
+                            [[Global shared] action2];
+                        }
+
+                        break;
                         [commandBuffer setString:@""]; // clear buffer
                     }
                     else if (ch == 127 || ch == 8) { // Backspace

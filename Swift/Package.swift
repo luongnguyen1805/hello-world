@@ -14,9 +14,9 @@ let package = Package(
             path: "Source"
         ),        
         .testTarget(
-            name: "Tests",
+            name: "Test",
             dependencies: ["Source"],
-            path: "Tests"
+            path: "Test"
         )
     ],
     swiftLanguageVersions: [(.v5)]

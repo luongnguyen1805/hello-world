@@ -1,4 +1,5 @@
 const readline = require('readline');
+const global = require('./global');
 
 // Create readline interface
 const rl = readline.createInterface({
@@ -29,10 +30,16 @@ function main() {
 
         // Handle Enter
         if (key.name === 'return') {
-            if (commandBuffer === '0') {
-                console.log('Exited.');
-                process.exit(0);
+            if (commandBuffer === '1') {
+                global.action1();
             }
+            else if (commandBuffer === '2') {
+                global.action2();
+            }
+
+            console.log('Exited.');
+            process.exit(0);
+
         }
         // Handle Backspace
         else if (key.name === 'backspace') {

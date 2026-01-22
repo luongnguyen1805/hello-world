@@ -50,10 +50,16 @@ func main() {
 			}
 
 			if b == 10 || b == 13 { // Enter
-				if commandBuffer == "0" {
-					fmt.Printf("\n\rExited.")
-					return
+				switch commandBuffer {
+				case "1":
+					Shared().Action1()
+				case "2":
+					Shared().Action2()
 				}
+
+				fmt.Printf("\n\rExited.")
+				return
+
 			} else if b == 127 || b == 8 { // Backspace
 				if len(commandBuffer) > 0 {
 					commandBuffer = commandBuffer[:len(commandBuffer)-1]

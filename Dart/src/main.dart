@@ -2,6 +2,8 @@ import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
 
+import 'global.dart';
+
 void showActions() {
   print('\r1. Action 1');
   print('\r2. Action 2');
@@ -21,10 +23,19 @@ void main() {
   stdin.listen((List<int> data) {
     for (var ch in data) {
       if (ch == 10 || ch == 13) {
-        if (commandBuffer == "0") {
-          print("\n\rExited.");
-          exit(0);
+        if (commandBuffer == "1") {
+          Global().action1();
+          print("\rExited.");
         }
+        else if (commandBuffer == "2") {
+          Global().action2(); 
+          print("\rExited.");         
+        }
+        else {
+          print("\nExited");
+        }
+       
+        exit(0);
 
       } else if (ch == 127 || ch == 8) {
         if (commandBuffer.isNotEmpty) {
