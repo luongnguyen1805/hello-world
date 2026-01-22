@@ -6,6 +6,8 @@ import os
 import select
 import time
 
+from global_state import global_state
+
 # --- Terminal handling ---
 orig_term = None
 
@@ -44,8 +46,11 @@ def main():
                 if ch:
                     code = ord(ch)
                     if code in (10, 13):  # Enter
-                        if command_buffer == "0":
-                            break
+                        if command_buffer == "1":
+                            global_state.action1()
+                        elif command_buffer == "2":
+                            global_state.action2()
+                        break
                     elif code in (127, 8):  # Backspace
                         if command_buffer:
                             command_buffer = command_buffer[:-1]
