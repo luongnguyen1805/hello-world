@@ -11,8 +11,8 @@
 #include "global.h"
 
 void showActions() {
-    printf("1. Action 1\n");
-    printf("2. Action 2\n");
+    printf("1. Action\n");
+    printf("2. Information\n");
     printf("0. Exit\n");
 }
 

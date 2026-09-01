@@ -11,5 +11,5 @@ cd src
 
 mkdir -p build
 
-g++ -std=c++11 global.cpp main.cpp -o ./build/main
+g++ -std=c++17 global.cpp main.cpp -o ./build/main
 ./build/main
